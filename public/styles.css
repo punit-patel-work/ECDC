@@ -1157,9 +1157,25 @@ textarea {
 }
 
 /* ============================================
-   Responsive Design
+   Responsive Design - Comprehensive
    ============================================ */
-@media (max-width: 1024px) {
+
+/* Large Desktop (1400px+) */
+@media (min-width: 1400px) {
+    .main-content {
+        max-width: 1200px;
+    }
+}
+
+/* Desktop (1024px - 1399px) */
+@media (max-width: 1399px) {
+    .main-content {
+        max-width: 900px;
+    }
+}
+
+/* Tablet Landscape & Small Desktop (768px - 1023px) */
+@media (max-width: 1023px) {
     .algorithm-selector {
         grid-template-columns: repeat(3, 1fr);
     }
@@ -1172,38 +1188,375 @@ textarea {
     .tech-specs {
         grid-template-columns: repeat(2, 1fr);
     }
-}
-
-@media (max-width: 768px) {
-    .sidebar {
-        width: var(--sidebar-collapsed);
-    }
-    
-    .sidebar .nav-label,
-    .sidebar .logo-text,
-    .sidebar .version-badge {
-        display: none;
-    }
-    
-    .main-content {
-        margin-left: var(--sidebar-collapsed);
-        padding: var(--spacing-md);
-    }
-    
-    .algorithm-selector {
-        grid-template-columns: repeat(2, 1fr);
-    }
     
     .hash-algo-grid {
         grid-template-columns: repeat(2, 1fr);
     }
     
+    .output-header {
+        flex-direction: column;
+        gap: var(--spacing-sm);
+        align-items: flex-start;
+    }
+    
+    .footer-links {
+        flex-wrap: wrap;
+    }
+}
+
+/* Tablet Portrait (600px - 767px) */
+@media (max-width: 767px) {
+    :root {
+        --spacing-xl: 1.5rem;
+        --spacing-2xl: 2rem;
+    }
+    
+    /* Sidebar collapses to icons only */
+    .sidebar {
+        width: var(--sidebar-collapsed);
+    }
+    
+    .sidebar .nav-label,
+    .sidebar .logo-text {
+        display: none;
+    }
+    
+    .sidebar-header {
+        padding: var(--spacing-md);
+    }
+    
+    .logo-icon {
+        width: 35px;
+        height: 35px;
+    }
+    
+    .nav-item {
+        padding: var(--spacing-md);
+        justify-content: center;
+    }
+    
+    .nav-icon {
+        font-size: 1.5rem;
+    }
+    
+    /* Main content adjusts */
+    .main-content {
+        margin-left: var(--sidebar-collapsed);
+        padding: var(--spacing-md);
+    }
+    
+    .tab-header h1 {
+        font-size: 1.5rem;
+    }
+    
+    /* Algorithm selector 3x2 grid */
+    .algorithm-selector {
+        grid-template-columns: repeat(3, 1fr);
+        gap: var(--spacing-xs);
+    }
+    
+    .algorithm-btn {
+        padding: var(--spacing-sm);
+    }
+    
+    .algo-icon {
+        font-size: 1.25rem;
+    }
+    
+    .algo-name {
+        font-size: 0.7rem;
+    }
+    
+    .algo-type {
+        display: none;
+    }
+    
+    /* Cards */
+    .card {
+        padding: var(--spacing-lg);
+    }
+    
+    /* Buttons full width */
     .action-buttons {
         flex-direction: column;
     }
     
+    .btn {
+        width: 100%;
+        padding: var(--spacing-md);
+    }
+    
+    /* Input rows stack */
     .input-row {
         grid-template-columns: 1fr;
+    }
+    
+    /* File dropzone smaller */
+    .file-dropzone {
+        padding: var(--spacing-xl);
+    }
+    
+    .dropzone-icon {
+        font-size: 2rem;
+    }
+    
+    /* File result stacks */
+    .file-result {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    /* Signature buttons scroll */
+    .signature-algo-selector {
+        overflow-x: auto;
+        padding-bottom: var(--spacing-sm);
+    }
+    
+    /* Hash grid 2 columns */
+    .hash-algo-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--spacing-sm);
+    }
+    
+    /* Toast repositioned */
+    .toast {
+        left: var(--spacing-md);
+        right: var(--spacing-md);
+        bottom: var(--spacing-md);
+    }
+    
+    /* Footer stacks */
+    .footer-links {
+        flex-direction: column;
+        gap: var(--spacing-xs);
+    }
+    
+    .footer-divider {
+        display: none;
+    }
+}
+
+/* Mobile Large (480px - 599px) */
+@media (max-width: 599px) {
+    /* Algorithm selector 2x3 grid */
+    .algorithm-selector {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    /* Key pair single column */
+    .key-pair-container {
+        gap: var(--spacing-md);
+    }
+    
+    /* Tech specs 2 columns */
+    .tech-specs {
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--spacing-sm);
+    }
+    
+    /* History item header stacks */
+    .history-item-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--spacing-xs);
+    }
+    
+    /* Tables scroll horizontally */
+    .comparison-results,
+    .benchmark-results {
+        overflow-x: auto;
+    }
+    
+    .comparison-table,
+    .benchmark-table {
+        min-width: 400px;
+    }
+    
+    /* Modal full-width */
+    .modal-content {
+        margin: var(--spacing-md);
+        max-width: calc(100% - 2 * var(--spacing-md));
+    }
+}
+
+/* Mobile Small (320px - 479px) */
+@media (max-width: 479px) {
+    :root {
+        --spacing-lg: 1rem;
+        --spacing-xl: 1.25rem;
+    }
+    
+    /* Sidebar becomes bottom nav on very small screens */
+    .sidebar {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        top: auto;
+        width: 100%;
+        height: auto;
+        flex-direction: row;
+        border-right: none;
+        border-top: 1px solid var(--border-color);
+        z-index: 100;
+    }
+    
+    .sidebar-header {
+        display: none;
+    }
+    
+    .sidebar-nav {
+        flex-direction: row;
+        justify-content: space-around;
+        padding: var(--spacing-sm);
+        gap: 0;
+    }
+    
+    .nav-item {
+        padding: var(--spacing-sm);
+        flex-direction: column;
+        gap: 2px;
+    }
+    
+    .nav-icon {
+        font-size: 1.25rem;
+    }
+    
+    .nav-label {
+        display: block;
+        font-size: 0.6rem;
+    }
+    
+    /* Main content full width with bottom padding */
+    .main-content {
+        margin-left: 0;
+        margin-bottom: 70px;
+        padding: var(--spacing-sm);
+    }
+    
+    .tab-header {
+        margin-bottom: var(--spacing-md);
+    }
+    
+    .tab-header h1 {
+        font-size: 1.25rem;
+    }
+    
+    .tab-header p {
+        font-size: 0.85rem;
+    }
+    
+    /* Cards compact */
+    .card {
+        padding: var(--spacing-md);
+        border-radius: var(--radius-lg);
+    }
+    
+    .card h3 {
+        font-size: 1rem;
+        margin-bottom: var(--spacing-md);
+    }
+    
+    /* Algorithm selector single row scroll */
+    .algorithm-selector {
+        display: flex;
+        overflow-x: auto;
+        gap: var(--spacing-sm);
+        padding-bottom: var(--spacing-sm);
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    .algorithm-btn {
+        flex: 0 0 auto;
+        min-width: 70px;
+        padding: var(--spacing-sm);
+    }
+    
+    /* Textarea smaller */
+    textarea {
+        min-height: 80px;
+        font-size: 0.8rem;
+    }
+    
+    .key-textarea {
+        min-height: 60px;
+        font-size: 0.7rem;
+    }
+    
+    /* Hash grid single column */
+    .hash-algo-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    /* Tech specs single column */
+    .tech-specs {
+        grid-template-columns: 1fr;
+    }
+    
+    /* Footer compact */
+    .app-footer {
+        padding: var(--spacing-md);
+    }
+    
+    .footer-brand {
+        flex-direction: column;
+        gap: var(--spacing-xs);
+    }
+    
+    .footer-info {
+        font-size: 0.75rem;
+    }
+    
+    .footer-info p:first-child {
+        display: none;
+    }
+    
+    /* Toast above nav */
+    .toast {
+        bottom: 80px;
+    }
+}
+
+/* Touch-friendly enhancements */
+@media (hover: none) and (pointer: coarse) {
+    .algorithm-btn,
+    .algo-btn,
+    .btn,
+    .nav-item,
+    .icon-btn,
+    .format-btn,
+    .hash-algo-checkbox {
+        min-height: 44px;
+    }
+    
+    .icon-btn {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .algorithm-btn:hover,
+    .btn:hover {
+        transform: none;
+    }
+}
+
+/* Landscape phone orientation */
+@media (max-height: 500px) and (orientation: landscape) {
+    .sidebar {
+        width: var(--sidebar-collapsed);
+    }
+    
+    .sidebar .nav-label,
+    .sidebar .logo-text {
+        display: none;
+    }
+    
+    .main-content {
+        margin-left: var(--sidebar-collapsed);
+    }
+    
+    .file-dropzone {
+        padding: var(--spacing-lg);
     }
 }
 
