@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Advanced encryption and decryption tool with file encryption, digital signatures, hashing, and more">
+    <title>ECDC - Advanced Encryption Center</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="background-effects">
+        <div class="gradient-orb orb-1"></div>
+        <div class="gradient-orb orb-2"></div>
+        <div class="gradient-orb orb-3"></div>
+    </div>
+
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <div class="logo-icon">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M12 2L12 6M12 18L12 22M22 12L18 12M6 12L2 12M19.07 4.93L16.24 7.76M7.76 16.24L4.93 19.07M19.07 19.07L16.24 16.24M7.76 7.76L4.93 4.93"
+                                stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                            <circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2" />
+                        </svg>
+                    </div>
+                    <span class="logo-text">ECDC</span>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <button class="nav-item active" data-tab="encrypt">
+                    <span class="nav-icon">🔐</span>
+                    <span class="nav-label">Encrypt</span>
+                </button>
+                <button class="nav-item" data-tab="files">
+                    <span class="nav-icon">📁</span>
+                    <span class="nav-label">Files</span>
+                </button>
+                <button class="nav-item" data-tab="signatures">
+                    <span class="nav-icon">✍️</span>
+                    <span class="nav-label">Signatures</span>
+                </button>
+                <button class="nav-item" data-tab="hashing">
+                    <span class="nav-icon">#️⃣</span>
+                    <span class="nav-label">Hashing</span>
+                </button>
+                <button class="nav-item" data-tab="tools">
+                    <span class="nav-icon">🛠️</span>
+                    <span class="nav-label">Tools</span>
+                </button>
+                <button class="nav-item" data-tab="history">
+                    <span class="nav-icon">📜</span>
+                    <span class="nav-label">History</span>
+                </button>
+            </nav>
+
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Tab: Encrypt/Decrypt -->
+            <section class="tab-content active" id="tab-encrypt">
+                <header class="tab-header">
+                    <h1>🔐 Text Encryption</h1>
+                    <p>Encrypt and decrypt text using industry-standard algorithms</p>
+                </header>
+
+                <div class="algorithm-section">
+                    <h3>Select Algorithm</h3>
+                    <div class="algorithm-selector">
+                        <button class="algorithm-btn active" data-algorithm="aes">
+                            <span class="algo-icon">🔐</span>
+                            <span class="algo-name">AES-256</span>
+                            <span class="algo-type">Symmetric</span>
+                        </button>
+                        <button class="algorithm-btn" data-algorithm="rsa">
+                            <span class="algo-icon">🔑</span>
+                            <span class="algo-name">RSA-2048</span>
+                            <span class="algo-type">Asymmetric</span>
+                        </button>
+                        <button class="algorithm-btn" data-algorithm="chacha">
+                            <span class="algo-icon">⚡</span>
+                            <span class="algo-name">ChaCha20</span>
+                            <span class="algo-type">Stream</span>
+                        </button>
+                        <button class="algorithm-btn" data-algorithm="blowfish">
+                            <span class="algo-icon">🐡</span>
+                            <span class="algo-name">Blowfish</span>
+                            <span class="algo-type">Legacy</span>
+                        </button>
+                        <button class="algorithm-btn" data-algorithm="ecc">
+                            <span class="algo-icon">📐</span>
+                            <span class="algo-name">ECC</span>
+                            <span class="algo-type">Curve25519</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="card keys-section" id="keysSection">
+                    <!-- Dynamic key content -->
+                </div>
+
+                <!-- PBKDF2 Option -->
+                <div class="card pbkdf2-section">
+                    <div class="pbkdf2-toggle">
+                        <input type="checkbox" id="usePbkdf2" class="toggle-checkbox">
+                        <label for="usePbkdf2" class="toggle-label">
+                            <span class="toggle-icon">🔑</span>
+                            Derive key from password (PBKDF2)
+                        </label>
+                    </div>
+                    <div class="pbkdf2-inputs" id="pbkdf2Inputs" style="display: none;">
+                        <div class="input-row">
+                            <div class="input-group">
+                                <label>Password</label>
+                                <input type="password" id="pbkdf2Password" placeholder="Enter password...">
+                                <div class="key-strength-meter" id="keyStrengthMeter">
+                                    <div class="strength-bar" id="strengthBar"></div>
+                                    <span class="strength-label" id="strengthLabel">Enter password</span>
+                                </div>
+                            </div>
+                            <div class="input-group">
+                                <label>Iterations</label>
+                                <input type="number" id="pbkdf2Iterations" value="100000" min="10000" max="1000000">
+                            </div>
+                        </div>
+                        <button class="btn btn-secondary" id="deriveKeyBtn">
+                            <span class="btn-icon">⚡</span> Derive Key
+                        </button>
+                    </div>
+                </div>
+
+                <div class="card crypto-section">
+                    <div class="input-group">
+                        <label for="inputText">
+                            <span class="label-icon">📝</span> Input Text
+                        </label>
+                        <div class="textarea-wrapper">
+                            <textarea id="inputText" placeholder="Enter your text here..."></textarea>
+                            <button class="icon-btn clear-btn" id="clearInput" title="Clear">✕</button>
+                        </div>
+                    </div>
+
+                    <div class="action-buttons">
+                        <button class="btn btn-primary" id="encryptBtn">
+                            <span class="btn-icon">🔒</span> Encrypt
+                        </button>
+                        <button class="btn btn-secondary" id="decryptBtn">
+                            <span class="btn-icon">🔓</span> Decrypt
+                        </button>
+                    </div>
+
+                    <div class="output-group">
+                        <div class="output-header">
+                            <label for="outputText">
+                                <span class="label-icon">📤</span> Output
+                            </label>
+                            <div class="output-format-toggle">
+                                <button class="format-btn active" data-format="base64">Base64</button>
+                                <button class="format-btn" data-format="hex">Hex</button>
+                                <button class="format-btn" data-format="binary">Binary</button>
+                            </div>
+                        </div>
+                        <div class="textarea-wrapper">
+                            <textarea id="outputText" placeholder="Result will appear here..." readonly></textarea>
+                            <div class="output-actions">
+                                <button class="icon-btn" id="copyOutput" title="Copy">📋</button>
+                                <button class="icon-btn" id="qrOutput" title="Generate QR">📱</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- How It Works -->
+                <div class="card explanation-section">
+                    <h3>💡 How It Works</h3>
+                    <div id="explanationCard"></div>
+                </div>
+            </section>
+
+            <!-- Tab: Files -->
+            <section class="tab-content" id="tab-files">
+                <header class="tab-header">
+                    <h1>📁 File Encryption</h1>
+                    <p>Encrypt and decrypt entire files up to 50MB</p>
+                </header>
+
+                <div class="card">
+                    <h3>🔑 Encryption Key</h3>
+                    <div class="key-container">
+                        <textarea class="key-textarea" id="fileEncryptionKey"
+                            placeholder="Enter or generate an AES-256 key..."></textarea>
+                        <button class="btn btn-secondary" id="generateFileKey">⚡ Generate Key</button>
+                    </div>
+                </div>
+
+                <div class="card file-upload-section">
+                    <h3>📤 Upload File</h3>
+                    <div class="file-dropzone" id="fileDropzone">
+                        <div class="dropzone-content">
+                            <span class="dropzone-icon">📁</span>
+                            <p>Drag & drop a file here or click to browse</p>
+                            <span class="dropzone-hint">Max file size: 50MB</span>
+                        </div>
+                        <input type="file" id="fileInput" hidden>
+                    </div>
+                    <div class="file-info" id="fileInfo" style="display: none;">
+                        <span class="file-name" id="fileName"></span>
+                        <span class="file-size" id="fileSize"></span>
+                    </div>
+                </div>
+
+                <div class="action-buttons">
+                    <button class="btn btn-primary" id="encryptFileBtn">
+                        <span class="btn-icon">🔒</span> Encrypt File
+                    </button>
+                    <button class="btn btn-secondary" id="decryptFileBtn">
+                        <span class="btn-icon">🔓</span> Decrypt File
+                    </button>
+                </div>
+
+                <div class="card" id="fileResultSection" style="display: none;">
+                    <h3>📥 Result</h3>
+                    <div class="file-result">
+                        <span class="result-filename" id="resultFilename"></span>
+                        <span class="result-size" id="resultSize"></span>
+                        <button class="btn btn-primary" id="downloadFileBtn">⬇️ Download</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Tab: Signatures -->
+            <section class="tab-content" id="tab-signatures">
+                <header class="tab-header">
+                    <h1>✍️ Digital Signatures</h1>
+                    <p>Sign and verify messages using RSA or ECDSA</p>
+                </header>
+
+                <div class="card">
+                    <h3>🔑 Key Pair</h3>
+                    <div class="signature-algo-selector">
+                        <button class="algo-btn active" data-sig-algo="rsa">RSA-2048</button>
+                        <button class="algo-btn" data-sig-algo="ecdsa">ECDSA P-256</button>
+                    </div>
+                    <div class="key-pair-container">
+                        <div class="key-container">
+                            <label>🔓 Public Key</label>
+                            <textarea class="key-textarea" id="sigPublicKey" placeholder="Public key..."></textarea>
+                        </div>
+                        <div class="key-container">
+                            <label>🔐 Private Key</label>
+                            <textarea class="key-textarea" id="sigPrivateKey" placeholder="Private key..."></textarea>
+                        </div>
+                    </div>
+                    <button class="btn btn-secondary" id="generateSigKeys">⚡ Generate Key Pair</button>
+                </div>
+
+                <div class="card">
+                    <h3>📝 Message</h3>
+                    <textarea class="full-textarea" id="sigMessage"
+                        placeholder="Enter message to sign or verify..."></textarea>
+                </div>
+
+                <div class="card">
+                    <h3>✍️ Signature</h3>
+                    <textarea class="key-textarea" id="signature"
+                        placeholder="Signature will appear here..."></textarea>
+                </div>
+
+                <div class="action-buttons">
+                    <button class="btn btn-primary" id="signBtn">
+                        <span class="btn-icon">✍️</span> Sign Message
+                    </button>
+                    <button class="btn btn-secondary" id="verifyBtn">
+                        <span class="btn-icon">✓</span> Verify Signature
+                    </button>
+                </div>
+
+                <div class="verification-result" id="verificationResult" style="display: none;">
+                    <span class="result-icon" id="verifyIcon"></span>
+                    <span class="result-text" id="verifyText"></span>
+                </div>
+            </section>
+
+            <!-- Tab: Hashing -->
+            <section class="tab-content" id="tab-hashing">
+                <header class="tab-header">
+                    <h1>#️⃣ Hash Generation</h1>
+                    <p>Generate cryptographic hashes using multiple algorithms</p>
+                </header>
+
+                <div class="card">
+                    <h3>📝 Input Text</h3>
+                    <textarea class="full-textarea" id="hashInput" placeholder="Enter text to hash..."></textarea>
+                </div>
+
+                <div class="card">
+                    <h3>🔧 Select Algorithms</h3>
+                    <div class="hash-algo-grid">
+                        <label class="hash-algo-checkbox">
+                            <input type="checkbox" value="md5"> MD5
+                            <span class="algo-bits">(128-bit)</span>
+                        </label>
+                        <label class="hash-algo-checkbox">
+                            <input type="checkbox" value="sha1"> SHA-1
+                            <span class="algo-bits">(160-bit)</span>
+                        </label>
+                        <label class="hash-algo-checkbox checked">
+                            <input type="checkbox" value="sha256" checked> SHA-256
+                            <span class="algo-bits">(256-bit)</span>
+                        </label>
+                        <label class="hash-algo-checkbox">
+                            <input type="checkbox" value="sha512"> SHA-512
+                            <span class="algo-bits">(512-bit)</span>
+                        </label>
+                        <label class="hash-algo-checkbox">
+                            <input type="checkbox" value="sha3-256"> SHA3-256
+                            <span class="algo-bits">(256-bit)</span>
+                        </label>
+                        <label class="hash-algo-checkbox">
+                            <input type="checkbox" value="sha3-512"> SHA3-512
+                            <span class="algo-bits">(512-bit)</span>
+                        </label>
+                    </div>
+                </div>
+
+                <button class="btn btn-primary" id="generateHashBtn">
+                    <span class="btn-icon">#️⃣</span> Generate Hashes
+                </button>
+
+                <div class="card" id="hashResults" style="display: none;">
+                    <h3>📊 Hash Results</h3>
+                    <div class="hash-results-container" id="hashResultsContainer"></div>
+                </div>
+            </section>
+
+            <!-- Tab: Tools -->
+            <section class="tab-content" id="tab-tools">
+                <header class="tab-header">
+                    <h1>🛠️ Advanced Tools</h1>
+                    <p>QR codes, benchmarks, and algorithm comparison</p>
+                </header>
+
+                <!-- QR Code Generator -->
+                <div class="card">
+                    <h3>📱 QR Code Generator</h3>
+                    <textarea class="full-textarea" id="qrInput"
+                        placeholder="Enter text to generate QR code (max 2000 chars)..."></textarea>
+                    <button class="btn btn-primary" id="generateQrBtn">
+                        <span class="btn-icon">📱</span> Generate QR Code
+                    </button>
+                    <div class="qr-display" id="qrDisplay" style="display: none;">
+                        <img id="qrImage" alt="QR Code">
+                        <button class="btn btn-secondary" id="downloadQrBtn">⬇️ Download QR</button>
+                    </div>
+                </div>
+
+                <!-- Algorithm Comparison -->
+                <div class="card">
+                    <h3>📊 Algorithm Comparison</h3>
+                    <textarea class="full-textarea" id="compareInput"
+                        placeholder="Enter text to compare encryption across algorithms..."></textarea>
+                    <button class="btn btn-primary" id="compareBtn">
+                        <span class="btn-icon">📊</span> Compare Algorithms
+                    </button>
+                    <div class="comparison-results" id="comparisonResults" style="display: none;"></div>
+                </div>
+
+                <!-- Performance Benchmark -->
+                <div class="card">
+                    <h3>⚡ Performance Benchmark</h3>
+                    <div class="benchmark-options">
+                        <div class="input-group">
+                            <label>Iterations</label>
+                            <input type="number" id="benchmarkIterations" value="100" min="10" max="1000">
+                        </div>
+                    </div>
+                    <button class="btn btn-primary" id="runBenchmarkBtn">
+                        <span class="btn-icon">⚡</span> Run Benchmark
+                    </button>
+                    <div class="benchmark-results" id="benchmarkResults" style="display: none;"></div>
+                </div>
+
+                <!-- Key Export/Import -->
+                <div class="card">
+                    <h3>💾 Key Export/Import</h3>
+                    <div class="key-io-container">
+                        <div class="key-export">
+                            <h4>Export Keys</h4>
+                            <p>Download all current keys as a JSON file</p>
+                            <button class="btn btn-secondary" id="exportKeysBtn">⬇️ Export Keys</button>
+                        </div>
+                        <div class="key-import">
+                            <h4>Import Keys</h4>
+                            <p>Load keys from a JSON file</p>
+                            <input type="file" id="importKeysInput" accept=".json" hidden>
+                            <button class="btn btn-secondary" id="importKeysBtn">⬆️ Import Keys</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Tab: History -->
+            <section class="tab-content" id="tab-history">
+                <header class="tab-header">
+                    <h1>📜 Encryption History</h1>
+                    <p>View and re-decrypt previous encryption operations</p>
+                </header>
+
+                <div class="history-controls">
+                    <button class="btn btn-secondary" id="clearHistoryBtn">🗑️ Clear History</button>
+                </div>
+
+                <div class="history-list" id="historyList">
+                    <div class="history-empty" id="historyEmpty">
+                        <span class="empty-icon">📭</span>
+                        <p>No encryption history yet</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Footer -->
+            <footer class="app-footer">
+                <div class="footer-content">
+                    <div class="footer-brand">
+                        <span class="footer-logo">🔐 ECDC</span>
+                        <span class="footer-version">v2.0 Advanced</span>
+                    </div>
+                    <div class="footer-info">
+                        <p>Built with modern cryptography standards</p>
+                        <p>AES-256 • RSA-2048 • ChaCha20 • ECC • Blowfish</p>
+                    </div>
+                    <div class="footer-links">
+                        <a href="https://github.com" target="_blank" rel="noopener">GitHub</a>
+                        <span class="footer-divider">•</span>
+                        <span>© 2024 ECDC</span>
+                        <span class="footer-divider">•</span>
+                        <span>Educational Use Only</span>
+                    </div>
+                </div>
+            </footer>
+        </main>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">
+        <span class="toast-icon">✓</span>
+        <span class="toast-message">Copied to clipboard!</span>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="spinner"></div>
+        <p id="loadingText">Processing...</p>
+    </div>
+
+    <!-- QR Modal -->
+    <div class="modal" id="qrModal">
+        <div class="modal-content">
+            <button class="modal-close" id="closeQrModal">✕</button>
+            <h3>📱 QR Code</h3>
+            <img id="modalQrImage" alt="QR Code">
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+
+</html>
