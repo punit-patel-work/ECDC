@@ -1449,7 +1449,11 @@ textarea {
         flex-direction: row;
         border-right: none;
         border-top: 1px solid var(--border-color);
-        z-index: 100;
+        z-index: 9999;
+        background: var(--bg-primary);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3);
     }
     
     .sidebar-header {
@@ -1459,30 +1463,52 @@ textarea {
     .sidebar-nav {
         flex-direction: row;
         justify-content: space-around;
-        padding: var(--spacing-sm);
+        width: 100%;
+        padding: var(--spacing-sm) 0;
         gap: 0;
     }
     
     .nav-item {
-        padding: var(--spacing-sm);
+        padding: var(--spacing-sm) var(--spacing-xs);
         flex-direction: column;
-        gap: 2px;
+        gap: 4px;
+        min-width: 50px;
+        min-height: 50px;
+        align-items: center;
+        justify-content: center;
+        border-radius: var(--radius-md);
+        background: transparent;
+        cursor: pointer;
+        -webkit-tap-highlight-color: rgba(99, 102, 241, 0.3);
+        touch-action: manipulation;
+    }
+    
+    .nav-item:active {
+        background: rgba(99, 102, 241, 0.2);
+        transform: scale(0.95);
+    }
+    
+    .nav-item.active {
+        background: rgba(99, 102, 241, 0.15);
     }
     
     .nav-icon {
-        font-size: 1.25rem;
+        font-size: 1.5rem;
+        line-height: 1;
     }
     
     .nav-label {
         display: block;
-        font-size: 0.6rem;
+        font-size: 0.65rem;
+        line-height: 1;
+        white-space: nowrap;
     }
     
-    /* Main content full width with bottom padding */
+    /* Main content full width with bottom padding for nav */
     .main-content {
         margin-left: 0;
-        margin-bottom: 70px;
-        padding: var(--spacing-sm);
+        margin-bottom: 80px;
+        padding: var(--spacing-md);
     }
     
     .tab-header {
