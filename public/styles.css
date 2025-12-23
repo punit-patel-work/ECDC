@@ -1660,3 +1660,375 @@ textarea {
     background: rgba(99, 102, 241, 0.3);
     color: var(--text-primary);
 }
+
+/* ============================================
+   Enhanced Animations & Micro-interactions
+   ============================================ */
+
+/* Ripple effect for buttons */
+.btn {
+    position: relative;
+    overflow: hidden;
+}
+
+.btn::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    background-image: radial-gradient(circle, rgba(255, 255, 255, 0.3) 10%, transparent 10.01%);
+    background-repeat: no-repeat;
+    background-position: 50%;
+    transform: scale(10, 10);
+    opacity: 0;
+    transition: transform 0.5s, opacity 0.5s;
+}
+
+.btn:active::after {
+    transform: scale(0, 0);
+    opacity: 0.3;
+    transition: 0s;
+}
+
+/* Glow pulse animation */
+@keyframes glow-pulse {
+    0%, 100% { box-shadow: 0 0 5px var(--accent-primary); }
+    50% { box-shadow: 0 0 20px var(--accent-primary), 0 0 30px var(--accent-secondary); }
+}
+
+.btn-primary:focus {
+    animation: glow-pulse 2s ease-in-out infinite;
+}
+
+/* Card entrance animation */
+.card {
+    animation: slideUp 0.4s ease-out;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Staggered card animation */
+.card:nth-child(1) { animation-delay: 0s; }
+.card:nth-child(2) { animation-delay: 0.1s; }
+.card:nth-child(3) { animation-delay: 0.2s; }
+.card:nth-child(4) { animation-delay: 0.3s; }
+
+/* Skeleton loading animation */
+@keyframes skeleton {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+}
+
+.skeleton {
+    background: linear-gradient(
+        90deg,
+        var(--bg-secondary) 25%,
+        var(--bg-glass) 50%,
+        var(--bg-secondary) 75%
+    );
+    background-size: 200% 100%;
+    animation: skeleton 1.5s infinite;
+    border-radius: var(--radius-md);
+}
+
+/* Input focus glow */
+input:focus,
+textarea:focus {
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2), 0 0 20px rgba(99, 102, 241, 0.1);
+}
+
+/* Algorithm button selection animation */
+.algorithm-btn {
+    position: relative;
+    overflow: hidden;
+}
+
+.algorithm-btn::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: rgba(99, 102, 241, 0.3);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: width 0.4s, height 0.4s;
+}
+
+.algorithm-btn.active::before {
+    width: 200%;
+    height: 200%;
+}
+
+/* Tab switch animation */
+.tab-content {
+    animation: fadeSlide 0.3s ease-out;
+}
+
+@keyframes fadeSlide {
+    from {
+        opacity: 0;
+        transform: translateX(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Nav item hover effect */
+.nav-item {
+    position: relative;
+    overflow: hidden;
+}
+
+.nav-item::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 3px;
+    background: var(--accent-gradient);
+    transform: scaleY(0);
+    transition: transform 0.3s ease;
+}
+
+.nav-item.active::before,
+.nav-item:hover::before {
+    transform: scaleY(1);
+}
+
+/* Toast slide in/out */
+.toast {
+    animation: toastIn 0.3s ease-out;
+}
+
+@keyframes toastIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* Spinner enhanced */
+.spinner {
+    border-width: 4px;
+    animation: spin 0.8s linear infinite, pulse-glow 2s ease-in-out infinite;
+}
+
+@keyframes pulse-glow {
+    0%, 100% { filter: drop-shadow(0 0 5px var(--accent-primary)); }
+    50% { filter: drop-shadow(0 0 15px var(--accent-primary)); }
+}
+
+/* File dropzone hover animation */
+.file-dropzone {
+    transition: all 0.3s ease;
+}
+
+.file-dropzone:hover {
+    transform: scale(1.01);
+    border-color: var(--accent-primary);
+}
+
+.file-dropzone.dragover {
+    transform: scale(1.02);
+    border-style: solid;
+    animation: border-dance 0.5s linear infinite;
+}
+
+@keyframes border-dance {
+    0% { border-color: var(--accent-primary); }
+    50% { border-color: var(--accent-secondary); }
+    100% { border-color: var(--accent-primary); }
+}
+
+/* Hash result item entrance */
+.hash-result-item {
+    animation: slideInLeft 0.3s ease-out;
+}
+
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.hash-result-item:nth-child(1) { animation-delay: 0s; }
+.hash-result-item:nth-child(2) { animation-delay: 0.05s; }
+.hash-result-item:nth-child(3) { animation-delay: 0.1s; }
+.hash-result-item:nth-child(4) { animation-delay: 0.15s; }
+.hash-result-item:nth-child(5) { animation-delay: 0.2s; }
+.hash-result-item:nth-child(6) { animation-delay: 0.25s; }
+
+/* Verification result animation */
+.verification-result {
+    animation: bounceIn 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+@keyframes bounceIn {
+    0% { transform: scale(0.3); opacity: 0; }
+    50% { transform: scale(1.05); }
+    70% { transform: scale(0.9); }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+/* Key strength meter animation */
+.strength-bar::after {
+    transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1), 
+                background-color 0.3s ease;
+}
+
+/* QR code display animation */
+.qr-display {
+    animation: zoomIn 0.3s ease-out;
+}
+
+@keyframes zoomIn {
+    from {
+        transform: scale(0.8);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* Modal animation */
+.modal.show .modal-content {
+    animation: modalIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes modalIn {
+    from {
+        transform: scale(0.7) translateY(20px);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1) translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Benchmark bar animation */
+.benchmark-bar {
+    animation: growWidth 0.8s ease-out;
+    transform-origin: left;
+}
+
+@keyframes growWidth {
+    from { transform: scaleX(0); }
+    to { transform: scaleX(1); }
+}
+
+/* History item hover */
+.history-item {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.history-item:hover {
+    transform: translateX(5px);
+    box-shadow: -3px 0 0 var(--accent-primary);
+}
+
+/* Logo icon animation */
+.logo-icon {
+    transition: transform 0.3s ease;
+}
+
+.logo-icon:hover {
+    transform: rotate(180deg);
+}
+
+/* Footer link hover effect */
+.footer-links a {
+    position: relative;
+}
+
+.footer-links a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: -2px;
+    left: 0;
+    background: var(--accent-gradient);
+    transition: width 0.3s ease;
+}
+
+.footer-links a:hover::after {
+    width: 100%;
+}
+
+/* Typing cursor effect for textareas */
+textarea:focus::placeholder {
+    opacity: 0;
+}
+
+/* Success/error state animations */
+.verification-result.valid {
+    animation: bounceIn 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55),
+               success-glow 2s ease-in-out infinite;
+}
+
+@keyframes success-glow {
+    0%, 100% { box-shadow: 0 0 5px var(--success); }
+    50% { box-shadow: 0 0 20px var(--success); }
+}
+
+.verification-result.invalid {
+    animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+}
+
+@keyframes shake {
+    10%, 90% { transform: translateX(-1px); }
+    20%, 80% { transform: translateX(2px); }
+    30%, 50%, 70% { transform: translateX(-4px); }
+    40%, 60% { transform: translateX(4px); }
+}
+
+/* Copy button success state */
+.icon-btn.copied {
+    background: var(--success);
+    color: white;
+    animation: pop 0.3s ease;
+}
+
+@keyframes pop {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+}
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}

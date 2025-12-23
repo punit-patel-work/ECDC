@@ -1077,8 +1077,49 @@ document.addEventListener('DOMContentLoaded', () => {
     updateKeysSection();
     updateExplanation();
     renderHistory();
+
+    // Initialize AOS animations
+    if (typeof AOS !== 'undefined') {
+        AOS.init({
+            duration: 600,
+            easing: 'ease-out-cubic',
+            once: true,
+            offset: 50
+        });
+    }
+
+    // Add haptic feedback for mobile (if supported)
+    const addHapticFeedback = (element) => {
+        element.addEventListener('click', () => {
+            if (navigator.vibrate) {
+                navigator.vibrate(10);
+            }
+        });
+    };
+
+    // Apply haptic to all buttons
+    document.querySelectorAll('.btn, .algorithm-btn, .nav-item').forEach(addHapticFeedback);
 });
+
+// Enhanced copy with animation feedback
+function copyWithFeedback(button, text) {
+    navigator.clipboard.writeText(text).then(() => {
+        button.classList.add('copied');
+        const originalContent = button.innerHTML;
+        button.innerHTML = '✓';
+
+        setTimeout(() => {
+            button.classList.remove('copied');
+            button.innerHTML = originalContent;
+        }, 1500);
+
+        showToast('Copied to clipboard!');
+    }).catch(() => {
+        showToast('Failed to copy', true);
+    });
+}
 
 // Make functions globally accessible
 window.generateKey = generateKey;
 window.copyHistoryOutput = copyHistoryOutput;
+window.copyWithFeedback = copyWithFeedback;
