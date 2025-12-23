@@ -104,63 +104,45 @@ const eccFallback = {
     }
 };
 
-// QR Code generation using matrix-based SVG (no canvas dependency)
-// Simple QR Code implementation that works on serverless
-const generateQRCodeSVG = (data, size = 256) => {
-    // Generate a simple visual representation based on data hash
-    const hash = crypto.createHash('md5').update(data).digest('hex');
-    const moduleCount = 21; // QR version 1
-    const cellSize = Math.floor(size / moduleCount);
-    const actualSize = cellSize * moduleCount;
+// Import QRCode library for real QR generation
+let QRCode;
+try {
+    QRCode = require('qrcode');
+} catch (e) {
+    console.log('QRCode library not available, using fallback');
+    QRCode = null;
+}
 
-    // Create a deterministic pattern based on data
-    let modules = [];
-    for (let row = 0; row < moduleCount; row++) {
-        modules[row] = [];
-        for (let col = 0; col < moduleCount; col++) {
-            // Finder patterns (corners)
-            if ((row < 7 && col < 7) || (row < 7 && col >= moduleCount - 7) || (row >= moduleCount - 7 && col < 7)) {
-                // Outer border
-                if (row === 0 || row === 6 || col === 0 || col === 6 ||
-                    (row >= moduleCount - 7 && (row === moduleCount - 7 || row === moduleCount - 1 || col === 0 || col === 6)) ||
-                    (col >= moduleCount - 7 && (row === 0 || row === 6 || col === moduleCount - 7 || col === moduleCount - 1))) {
-                    modules[row][col] = true;
-                }
-                // Inner square
-                else if (row >= 2 && row <= 4 && col >= 2 && col <= 4) modules[row][col] = true;
-                else if (row < 7 && col >= moduleCount - 7 && row >= 2 && row <= 4 && col >= moduleCount - 5 && col <= moduleCount - 3) modules[row][col] = true;
-                else if (row >= moduleCount - 7 && col < 7 && row >= moduleCount - 5 && row <= moduleCount - 3 && col >= 2 && col <= 4) modules[row][col] = true;
-                else modules[row][col] = false;
-            }
-            // Timing patterns
-            else if (row === 6) {
-                modules[row][col] = col % 2 === 0;
-            } else if (col === 6) {
-                modules[row][col] = row % 2 === 0;
-            }
-            // Data area - use hash to generate pattern
-            else {
-                const idx = (row * moduleCount + col) % 32;
-                const bit = parseInt(hash[idx], 16) & (1 << ((row + col) % 4));
-                modules[row][col] = bit !== 0;
-            }
+// QR Code generation - use real library if available
+const generateQRCodeDataURL = async (data, size = 256) => {
+    // Use real QRCode library if available
+    if (QRCode) {
+        try {
+            const qrDataUrl = await QRCode.toDataURL(data, {
+                width: size,
+                margin: 2,
+                color: {
+                    dark: '#1e293b',
+                    light: '#ffffff'
+                },
+                errorCorrectionLevel: 'M'
+            });
+            return qrDataUrl;
+        } catch (e) {
+            console.error('QRCode generation failed:', e);
         }
     }
 
-    let rects = '';
-    for (let row = 0; row < moduleCount; row++) {
-        for (let col = 0; col < moduleCount; col++) {
-            if (modules[row][col]) {
-                rects += `<rect x="${col * cellSize}" y="${row * cellSize}" width="${cellSize}" height="${cellSize}" fill="#1e293b"/>`;
-            }
-        }
-    }
-
-    const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${actualSize}" height="${actualSize}" viewBox="0 0 ${actualSize} ${actualSize}">
-        <rect width="${actualSize}" height="${actualSize}" fill="#ffffff"/>
-        ${rects}
+    // Fallback: Simple placeholder SVG if library not available
+    const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 ${size} ${size}">
+        <rect width="${size}" height="${size}" fill="#ffffff"/>
+        <text x="${size / 2}" y="${size / 2}" text-anchor="middle" fill="#1e293b" font-size="12" font-family="monospace">
+            QR: ${data.substring(0, 15)}...
+        </text>
+        <text x="${size / 2}" y="${size / 2 + 16}" text-anchor="middle" fill="#94a3b8" font-size="10" font-family="sans-serif">
+            (Install qrcode package)
+        </text>
     </svg>`;
-
     return `data:image/svg+xml;base64,${Buffer.from(svg).toString('base64')}`;
 };
 
@@ -437,7 +419,7 @@ const handlers = {
         }
 
         try {
-            const qrCode = generateQRCodeSVG(data, size);
+            const qrCode = await generateQRCodeDataURL(data, size);
             return response(200, { qrCode });
         } catch (e) {
             return response(500, { error: e.message });
